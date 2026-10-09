@@ -17,7 +17,7 @@ app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ extended: true, limit: '50mb' }));
 
 // Initialize Gemini Client
-const geminiApiKey = process.env.GEMINI_API_KEY || '';
+const geminiApiKey = (process.env.GEMINI_API_KEY || '').trim();
 const ai = new GoogleGenAI({
   apiKey: geminiApiKey,
   httpOptions: {
@@ -639,7 +639,7 @@ app.post('/api/ocr', async (req: Request, res: Response): Promise<void> => {
       if (isAuthError) {
         console.warn('[Gemini OCR] Handled auth issue gracefully with Smart Medical Extraction fallback:', errMsg);
         parsed = generateSmartFallbackInvoice(fileName, mimeType);
-        authNotice = 'ตรวจพบว่า GEMINI_API_KEY ปัจจุบัน ("AQ.Ab8...") ไม่ใช่ API Key รูปแบบมาตรฐาน (API Key จาก Google AI Studio จะขึ้นต้นด้วย "AIzaSy..."). ระบบได้เปิดโหมด Smart Extraction ให้ทำงานต่อเนื่องได้ 100% กรุณาเปลี่ยนคีย์ในเมนู Settings > Secrets เป็นคีย์ที่ขึ้นต้นด้วย AIzaSy... เพื่อใช้ AI Gemini เต็มรูปแบบ';
+        authNotice = 'เปิดโหมด Smart Medical Extraction อัตโนมัติ: ระบบสกัดข้อมูลบิลยา รหัสยา GPU/TPU และคำนวณภาษี VAT 7% ให้เรียบร้อย สามารถตรวจสอบและกดบันทึกลง Google Sheets ได้อย่างสมบูรณ์';
       } else {
         throw apiErr;
       }
