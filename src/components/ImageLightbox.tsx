@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { X, ZoomIn, ZoomOut, RotateCw, ExternalLink, Download } from 'lucide-react';
+import { X, ZoomIn, ZoomOut, RotateCw, ExternalLink, FileText } from 'lucide-react';
 
 interface ImageLightboxProps {
   isOpen: boolean;
@@ -29,7 +29,10 @@ export const ImageLightbox: React.FC<ImageLightboxProps> = ({
     setRotation(0);
   };
 
-  const isPdf = imageUrl.startsWith('data:application/pdf') || title.toLowerCase().endsWith('.pdf');
+  const isPdf = Boolean(
+    imageUrl &&
+    (imageUrl.startsWith('data:application/pdf') || (title && title.toLowerCase().endsWith('.pdf')))
+  );
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-xs p-4 animate-in fade-in duration-150">
@@ -42,7 +45,7 @@ export const ImageLightbox: React.FC<ImageLightboxProps> = ({
           </div>
 
           <div className="flex items-center gap-2">
-            {!isPdf && (
+            {!isPdf && imageUrl && (
               <>
                 <button
                   onClick={handleZoomIn}
@@ -99,7 +102,23 @@ export const ImageLightbox: React.FC<ImageLightboxProps> = ({
 
         {/* Viewport */}
         <div className="relative flex-1 overflow-auto p-4 flex items-center justify-center min-h-[350px] bg-slate-950">
-          {isPdf ? (
+          {!imageUrl ? (
+            <div className="text-center text-slate-400 p-8">
+              <FileText className="w-12 h-12 mx-auto mb-2 text-slate-500" />
+              <p className="text-sm font-medium">ดูไฟล์ต้นฉบับใน Google Drive</p>
+              {driveUrl && (
+                <a
+                  href={driveUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="mt-3 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold transition-colors"
+                >
+                  <span>เปิด Google Drive Folder</span>
+                  <ExternalLink className="w-3.5 h-3.5" />
+                </a>
+              )}
+            </div>
+          ) : isPdf ? (
             <iframe
               src={imageUrl}
               className="w-full h-[70vh] rounded-lg border border-slate-700 bg-white"

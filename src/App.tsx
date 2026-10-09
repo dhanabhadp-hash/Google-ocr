@@ -173,13 +173,13 @@ export default function App() {
       };
       setHistory((prev) => [newHistoryItem, ...prev]);
 
-      // 4. Trigger LINE OA Flex notification if configured
-      if (settings.enableLineNotify && settings.lineChannelAccessToken) {
+      // 4. Trigger LINE OA Flex notification if enabled
+      if (settings.enableLineNotify) {
         fetch('/api/line/notify', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
-            token: settings.lineChannelAccessToken,
+            token: settings.lineChannelAccessToken || undefined,
             toUserId: settings.lineDestinationUserId || undefined,
             invoiceSummary: {
               invoiceNo: invoice.invoiceNo,

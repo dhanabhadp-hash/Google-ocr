@@ -35,6 +35,7 @@ export interface ExtractedInvoice {
   vatAnalysis: VatAnalysis;
   items: InvoiceItem[];
   rawNotes?: string;
+  authNotice?: string;
   driveUrl?: string;
   status: 'PENDING_REVIEW' | 'SAVED' | 'ERROR';
   savedTimestamp?: string;

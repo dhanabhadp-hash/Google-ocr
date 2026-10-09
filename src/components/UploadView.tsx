@@ -169,6 +169,7 @@ export const UploadView: React.FC<UploadViewProps> = ({
             totalPrice: Number(it.totalPrice || 0),
           })),
           driveUrl: settings.googleDriveFolderUrl,
+          authNotice: ocrData.authNotice,
           status: 'PENDING_REVIEW',
         };
 
@@ -275,6 +276,7 @@ export const UploadView: React.FC<UploadViewProps> = ({
           totalPrice: Number(it.totalPrice || 0),
         })),
         driveUrl: settings.googleDriveFolderUrl,
+        authNotice: ocrData.authNotice,
         status: 'PENDING_REVIEW',
       };
 
@@ -872,6 +874,16 @@ export const UploadView: React.FC<UploadViewProps> = ({
             <div className="p-4 rounded-xl bg-rose-50 border border-rose-200 text-rose-800 text-sm flex items-center gap-3">
               <AlertCircle className="w-5 h-5 text-rose-600 shrink-0" />
               <div className="flex-1">{saveErrorMessage}</div>
+            </div>
+          )}
+
+          {currentInvoice.authNotice && (
+            <div className="p-3.5 rounded-xl bg-amber-50/90 border border-amber-200 text-amber-900 text-xs flex items-start gap-2.5">
+              <Info className="w-4 h-4 text-amber-600 shrink-0 mt-0.5" />
+              <div className="leading-relaxed">
+                <span className="font-bold">โหมด Smart Extraction พร้อมใช้งาน: </span>
+                {currentInvoice.authNotice}
+              </div>
             </div>
           )}
 
